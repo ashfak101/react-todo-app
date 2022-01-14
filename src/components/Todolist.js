@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import useData from './useData';
+import List from './List';
 
 
 function createData(name, calories, fat, carbs, protein) {
@@ -15,9 +17,11 @@ function createData(name, calories, fat, carbs, protein) {
   }
 export default function Todolist() {
 
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-      ];
+   const [datas,setDatas]= useData();
+   console.log(datas);
+
+    
+      
     return (
         <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -30,19 +34,12 @@ export default function Todolist() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell >
-              <Checkbox />
-              </TableCell>
-              <TableCell component="th" scope="row" >{row.calories}</TableCell>
-              <TableCell align="right"><Button>Edit</Button></TableCell>
-              <TableCell align="right"><Button>Delete</Button></TableCell>
-              
-            </TableRow>
+          {datas.map((data,index) => (
+              <List
+              data={data}
+              index={index}
+              id={index}
+              ></List>
           ))}
         </TableBody>
       </Table>
