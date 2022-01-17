@@ -46,6 +46,7 @@ export default function Todolist() {
         <TableBody>
           {datas.map((data,index) => (
               <List
+              key={data.id}
               data={data}
               index={index}
               id={index}

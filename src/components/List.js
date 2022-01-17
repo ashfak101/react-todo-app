@@ -9,7 +9,18 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
+import useData from './useData';
+import { Link } from 'react-router-dom';
 export default function List({data,id,checkComplete,index}) {
+    const [datas,setDatas]=useData()
+
+
+    const deleteToDo =id=>{
+      const newdata= datas.filter(data=> data.id!==id)
+      setDatas(newdata)
+    }
+    
+
     return (
         <TableRow
       
@@ -23,8 +34,10 @@ export default function List({data,id,checkComplete,index}) {
         <TableCell >
           <Typography align="right">{data.Date}</Typography>
         </TableCell>
-        <TableCell align="right"><Button >Edit</Button></TableCell>
-     <TableCell  align="right">   <Button >Delete</Button></TableCell>
+        <TableCell align="right"><Link to={`/update/${data.id}`}><Button  >Edit</Button></Link></TableCell>
+     <TableCell  align="right">   <Button
+     sx={{color:'red'}}
+     onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell>
         {
             data.complete ? <TableCell align="right" sx={{color:'green'}}>Completed</TableCell>: <TableCell align="right"><Button
             checked={data.complete}

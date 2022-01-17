@@ -18,7 +18,11 @@ export default function TodoForm() {
     const handleSubmit=(e)=>{
         e.preventDefault();
         // storing data using spread oparator
-        setDatas([...datas,{name:text,complete:false,Date:date}])
+        setDatas([...datas,{ 
+        id: Math.random()*50,    
+        name:text,
+        complete:false,
+        Date:date}])
         
         setText('')
     }
