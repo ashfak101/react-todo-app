@@ -2,13 +2,14 @@ import { TextField,Box } from '@mui/material'
 import React, { useState } from 'react'
 import Button from '@mui/material/Button';
 import useData from './useData';
-
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 export default function TodoForm() {
     const [text,setText] =useState('')
     const [date,setDate] =useState('')
-
+    const [success, setSuccess] = useState(false)
     const [datas,setDatas]=useData();
-    console.log(datas);
+    
     const handleChange=e=>{
         setText(e.target.value)
     }
@@ -23,7 +24,7 @@ export default function TodoForm() {
         name:text,
         complete:false,
         Date:date}])
-        
+        setSuccess(true)
         setText('')
     }
 
@@ -42,6 +43,9 @@ export default function TodoForm() {
                   sx={{p:1.5,ml:4}}
                   >ADD+</Button>
             </form>
+           {success && <Alert severity="success">
+                 <AlertTitle>Success</AlertTitle>    
+             </Alert>}
         </Box>
     )
 }

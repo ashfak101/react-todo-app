@@ -1,43 +1,55 @@
 import TextField from '@mui/material/TextField';
 import React, { useState,useEffect } from 'react'
 import Button from '@mui/material/Button';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import useData from './useData';
 export default function Update() {
+
+     let navigate = useNavigate();
     let {id}=useParams()
-    const [datas,setDatas]=useData();
+    const [datas,setDatas]=useData({});
+    const [updateData,setUpdate]= useState({})
     const [text,setText]=useState('');
     const [date,setDate]=useState('');
     console.log(datas);
-    useEffect(()=>{
-        const newData = datas.forEach(data=>
-            data.id===id
-        )
-        setDatas(newData)
-    },[])
     const handleOnChangeText=e=>{
         setText(e.target.value);
     }
     const handleOnChangeDate=e=>{
         setDate(e.target.value);
     }
-    const handleOnSubmit=e=>{
+
+   
+     useEffect(() => {    
+    const newData = datas.find((data)=> data.id==id)
+        setUpdate(newData)
+  }, [id])
+    const handleOnSubmit= e =>{
         e.preventDefault();
-        setDatas([{...datas,
-            name:text
-            ,Date:date,
-            complete:false,
-        }])
+        const singleTodo={
+            id:updateData?.id,
+            name:text,
+            Date: date || updateData.Date,
+            complete:updateData.complete
+        }
+        const todoList=[];
+        todoList.push(singleTodo);
+        const latestUpdate=datas.map(data=>todoList.find(todo=>todo.id===data.id)|| data)
+       setDatas(latestUpdate)
     }
+
+
+ 
+   
     return (
        <>
         <h1>{id}</h1>
         <form onSubmit={handleOnSubmit}>
           <TextField id="outlined-basic" placeholder='Update task' 
-          value={datas?.name}
+          value={updateData?.name}
           variant="outlined" onChange={handleOnChangeText} />
           <input className='date' type="Date"
-           value={datas?.Date} onChange={handleOnChangeDate}/>
+           value={updateData?.Date} onChange={handleOnChangeDate}/>
                 
                 <Button
                  type='sumbit'

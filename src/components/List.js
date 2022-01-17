@@ -41,7 +41,7 @@ export default function List({data,id,checkComplete,index}) {
         {
             data.complete ? <TableCell align="right" sx={{color:'green'}}>Completed</TableCell>: <TableCell align="right"><Button
             checked={data.complete}
-            onClick={()=>checkComplete(id)} >Uncomplete</Button></TableCell> 
+            onClick={()=>checkComplete(id)} >Incomplete</Button></TableCell> 
 
         }
         

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -27,7 +27,7 @@ export default function Todolist() {
         setDatas(newData);
    }
    
-     
+    
 
       
     return (
@@ -44,7 +44,7 @@ export default function Todolist() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {datas.map((data,index) => (
+          {datas.map((data,index)=>(
               <List
               key={data.id}
               data={data}
@@ -52,8 +52,7 @@ export default function Todolist() {
               id={index}
               checkComplete={checkComplete}
               
-              isClick={isClick}
-              ></List>
+              isClick={isClick}></List>
           ))}
         </TableBody>
       </Table>
