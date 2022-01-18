@@ -38,12 +38,12 @@ export default function TodoForm() {
             setSuccess(true)
             setText('')
             setDate('')
-            setTimeout(() => {
-                setSuccess(false)
-              }, 1000);
-       
+            
+           
     }
-    
+    setTimeout(() => {
+        setSuccess(false)
+      }, 1000);
     return (
         <Box  sx={{m:4}}>
             <form onSubmit={handleSubmit}>

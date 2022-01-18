@@ -16,7 +16,9 @@ export default function List({data,id,checkComplete,index,isClick}) {
       const newdata= datas.filter(data=> data.id!==id)
       setDatas(newdata)
     }
-    
+    const checkBox=id=>{
+      alert(id)
+    }
 
     return (
         <TableRow
@@ -24,7 +26,7 @@ export default function List({data,id,checkComplete,index,isClick}) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }
     }
       >
-         <TableCell> <Checkbox></Checkbox></TableCell>
+         <TableCell onClick={()=>checkBox(data.id)}> <Checkbox ></Checkbox></TableCell>
         <TableCell >
        
           <Typography>{index}</Typography>
