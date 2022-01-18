@@ -54,9 +54,9 @@ export default function Update() {
                 
                 <Button
                  type='sumbit'
-                  variant="contained"
-                  sx={{p:1.5,ml:4}}
-                  >Update</Button>
+                variant="contained"
+                sx={{p:1.5,ml:4}}
+            >Update</Button>
         </form>
        </>
     )
