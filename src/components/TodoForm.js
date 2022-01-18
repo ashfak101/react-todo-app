@@ -16,22 +16,29 @@ export default function TodoForm() {
     const handleDateChange=e=>{
         setDate(e.target.value)
     }
-    const handleSubmit=(e)=>{
+    
+    // Validate Date ------//
+    const today =new Date()
+    const validDate = today.getFullYear() + '-' + ('0' + today.getMonth() + 1).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    console.log(validDate);
+    const handleSubmit=e=>{
         e.preventDefault();
-        // storing data using spread oparator
+       
         setDatas([...datas,{ 
-        id: Math.random()*50,    
-        name:text,
-        complete:false,
-        Date:date}])
-        
-        setSuccess(true)
-        setText('')
-        setTimeout(() => {
-            setSuccess(false)
-          }, 1000);
+            id: Math.random()*50,    
+            name:text,
+            complete:false,
+            Date:date}])
+            
+            setSuccess(true)
+            setText('')
+            setDate('')
+            setTimeout(() => {
+                setSuccess(false)
+              }, 1000);
+       
     }
-
+    
     return (
         <Box  sx={{m:4}}>
             <form onSubmit={handleSubmit}>
@@ -40,7 +47,7 @@ export default function TodoForm() {
                 value={text}
                 required
                 />
-                <input className='date' type="Date" onChange={handleDateChange}  required/>
+                <input className='date' type="Date" min={validDate} defaultValue={validDate} onChange={handleDateChange}  required/>
                 
                 <Button
                  type='sumbit'
@@ -49,7 +56,7 @@ export default function TodoForm() {
                   >ADD+</Button>
             </form>
            {success && <Alert severity="success">
-                 <AlertTitle>successfully</AlertTitle>    
+                 <AlertTitle>Task Added successfully</AlertTitle>    
              </Alert>}
         </Box>
     )

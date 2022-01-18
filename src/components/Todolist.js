@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,10 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import PageviewIcon from '@mui/icons-material/Pageview';
+
 import useData from './useData';
 import List from './List';
-import { Box, Typography } from '@mui/material';
+import { Box,  } from '@mui/material';
 import Button from '@mui/material/Button';
 
 
@@ -55,8 +55,11 @@ export default function Todolist() {
             <TableCell >Task</TableCell>
             <TableCell align="right">Date</TableCell>
             <TableCell align="right">update</TableCell>
-       {isClick&& <TableCell align="right">Delete</TableCell>}
-            <TableCell align="right">Completed</TableCell>
+            {isClick&& 
+              <TableCell align="right">Delete</TableCell>
+            }
+            <TableCell align="right">Status</TableCell>
+            <TableCell align="right">Remaining Day</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,7 +67,7 @@ export default function Todolist() {
               <List
               key={data.id}
               data={data}
-              index={index}
+              index={index+1}
               id={index}
               checkComplete={checkComplete}
               

@@ -34,10 +34,13 @@ export default function List({data,id,checkComplete,index,isClick}) {
         <TableCell >
           <Typography align="right">{data.Date}</Typography>
         </TableCell>
-        <TableCell align="right"><Link className='edit' to={`/update/${data.id}`}><Button  >Edit</Button></Link></TableCell>
-    {isClick && <TableCell  align="right">   <Button
-     sx={{color:'red'}}
-     onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell>}
+          <TableCell align="right">{
+            data.complete===false ? <Link className='edit' to={`/update/${data.id}`}><Button  >Edit</Button></Link>:
+            <Button disabled>Edit</Button>
+          }</TableCell>
+            {isClick && data.complete===true  ? <TableCell  align="right"> <Button
+            sx={{color:'red'}}
+             onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell> : <TableCell><Button disabled>Delete</Button></TableCell>}
         {
             data.complete ? <TableCell align="right" sx={{color:'green'}}>Completed</TableCell>: <TableCell align="right"><Button
             checked={data.complete}
