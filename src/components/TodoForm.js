@@ -44,7 +44,7 @@ export default function TodoForm() {
                   >ADD+</Button>
             </form>
            {success && <Alert severity="success">
-                 <AlertTitle>Success</AlertTitle>    
+                 <AlertTitle>successfully</AlertTitle>    
              </Alert>}
         </Box>
     )

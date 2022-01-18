@@ -49,6 +49,10 @@
   border-top: 2px solid #e4e6ec;
   border-radius: 5px;
 }
+.edit {
+  text-decoration: none;
+  color: green;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

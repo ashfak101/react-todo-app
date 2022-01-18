@@ -34,7 +34,7 @@ export default function List({data,id,checkComplete,index}) {
         <TableCell >
           <Typography align="right">{data.Date}</Typography>
         </TableCell>
-        <TableCell align="right"><Link to={`/update/${data.id}`}><Button  >Edit</Button></Link></TableCell>
+        <TableCell align="right"><Link className='edit' to={`/update/${data.id}`}><Button  >Edit</Button></Link></TableCell>
      <TableCell  align="right">   <Button
      sx={{color:'red'}}
      onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell>

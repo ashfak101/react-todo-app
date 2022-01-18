@@ -26,15 +26,15 @@ export default function Update() {
   }, [id])
     const handleOnSubmit= e =>{
         e.preventDefault();
-        const singleTodo={
-            id:updateData?.id,
-            name:text,
+        const singleTodo=[{
+           ...updateData,
+            name:text || updateData.name,
             Date: date || updateData.Date,
-            complete:updateData.complete
-        }
-        const todoList=[];
-        todoList.push(singleTodo);
-        const latestUpdate=datas.map(data=>todoList.find(todo=>todo.id===data.id)|| data)
+            
+        }]
+       
+        
+        const latestUpdate=datas.map(data=>singleTodo.find(todo=>todo.id===data.id)|| data)
        setDatas(latestUpdate)
     }
 
@@ -45,11 +45,12 @@ export default function Update() {
        <>
         <h1>{id}</h1>
         <form onSubmit={handleOnSubmit}>
-          <TextField id="outlined-basic" placeholder='Update task' 
-          value={updateData?.name}
+          <TextField  placeholder={updateData?.name} 
+          value={updateData?.name || " "}
+         
           variant="outlined" onChange={handleOnChangeText} />
-          <input className='date' type="Date"
-           value={updateData?.Date} onChange={handleOnChangeDate}/>
+          <input className='date' type="Date" placeholder={updateData.Date}
+            onChange={handleOnChangeDate}/>
                 
                 <Button
                  type='sumbit'
