@@ -61,6 +61,11 @@
   text-decoration: none;
   color: green;
 }
+.search {
+  width: 50%;
+  height: 30px;
+  margin: 10px 0;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

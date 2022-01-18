@@ -24,8 +24,12 @@ export default function TodoForm() {
         name:text,
         complete:false,
         Date:date}])
+        
         setSuccess(true)
         setText('')
+        setTimeout(() => {
+            setSuccess(false)
+          }, 1000);
     }
 
     return (
@@ -34,8 +38,9 @@ export default function TodoForm() {
                 <TextField type="text" name='tasks'  id='tasks' placeholder='Add your task'
                 onChange={handleChange}
                 value={text}
+                required
                 />
-                <input className='date' type="Date" onChange={handleDateChange}/>
+                <input className='date' type="Date" onChange={handleDateChange}  required/>
                 
                 <Button
                  type='sumbit'

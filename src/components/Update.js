@@ -45,9 +45,9 @@ export default function Update() {
         <h1>{id}</h1>
         <form onSubmit={handleOnSubmit}>
       
-          <input className='text' type="text" defaultValue={updateData.name} onChange={handleOnChangeText} />
+          <input className='text' type="text" defaultValue={updateData.name} onChange={handleOnChangeText} required/>
           <input className='date' type="Date" defaultValue={updateData?.Date || ''}
-            onChange={handleOnChangeDate}/>
+            onChange={handleOnChangeDate} required/>
                 
                 <Button
                  type='sumbit'

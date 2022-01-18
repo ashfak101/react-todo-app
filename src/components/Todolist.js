@@ -6,15 +6,17 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import PageviewIcon from '@mui/icons-material/Pageview';
 import useData from './useData';
 import List from './List';
-
+import { Box, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 
 
 export default function Todolist() {
     const [isClick,setIsClick]=useState(false)
    const [datas,setDatas]= useData();
+    const [search,setSearch] =  useState('')
    console.log(datas);
 
    const checkComplete=id=>{
@@ -28,11 +30,24 @@ export default function Todolist() {
         setIsClick(true)
    }
    
-    
+    const handleSearchText=e=>{
+      setSearch(e.target.value)
+    }
+    const handleSearch=()=>{
+      const searchedTodo =datas.filter(data=>data.name.toLowerCase().includes(search.toLowerCase()))
+      setDatas(searchedTodo)
+    }
 
       
     return (
-        <TableContainer component={Paper} >
+        <Box>
+          <Box>
+            <input className='search' type="text" onChange={handleSearchText}/>
+            <Button variant='contained' sx={{m:1}} onClick={handleSearch}>Search</Button>
+              
+           
+          </Box>
+          <TableContainer component={Paper} >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -58,5 +73,6 @@ export default function Todolist() {
         </TableBody>
       </Table>
     </TableContainer>
+        </Box>
     )
 }
