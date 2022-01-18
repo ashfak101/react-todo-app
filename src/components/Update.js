@@ -1,4 +1,4 @@
-import TextField from '@mui/material/TextField';
+
 import React, { useState,useEffect } from 'react'
 import Button from '@mui/material/Button';
 import { useParams,useNavigate } from 'react-router-dom';
@@ -31,11 +31,10 @@ export default function Update() {
             name:text || updateData.name,
             Date: date || updateData.Date,
             
-        }]
-       
-        
+        }]    
         const latestUpdate=datas.map(data=>singleTodo.find(todo=>todo.id===data.id)|| data)
        setDatas(latestUpdate)
+       navigate('/')
     }
 
 
@@ -45,11 +44,9 @@ export default function Update() {
        <>
         <h1>{id}</h1>
         <form onSubmit={handleOnSubmit}>
-          <TextField  placeholder={updateData?.name} 
-          value={updateData?.name || " "}
-         
-          variant="outlined" onChange={handleOnChangeText} />
-          <input className='date' type="Date" placeholder={updateData.Date}
+      
+          <input className='text' type="text" defaultValue={updateData.name} onChange={handleOnChangeText} />
+          <input className='date' type="Date" defaultValue={updateData?.Date || ''}
             onChange={handleOnChangeDate}/>
                 
                 <Button

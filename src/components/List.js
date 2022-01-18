@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import useData from './useData';
 import { Link } from 'react-router-dom';
-export default function List({data,id,checkComplete,index}) {
+export default function List({data,id,checkComplete,index,isClick}) {
     const [datas,setDatas]=useData()
 
 
@@ -35,9 +35,9 @@ export default function List({data,id,checkComplete,index}) {
           <Typography align="right">{data.Date}</Typography>
         </TableCell>
         <TableCell align="right"><Link className='edit' to={`/update/${data.id}`}><Button  >Edit</Button></Link></TableCell>
-     <TableCell  align="right">   <Button
+    {isClick && <TableCell  align="right">   <Button
      sx={{color:'red'}}
-     onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell>
+     onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell>}
         {
             data.complete ? <TableCell align="right" sx={{color:'green'}}>Completed</TableCell>: <TableCell align="right"><Button
             checked={data.complete}

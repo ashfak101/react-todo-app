@@ -25,6 +25,7 @@ export default function Todolist() {
             } 
         })
         setDatas(newData);
+        setIsClick(true)
    }
    
     
@@ -39,7 +40,7 @@ export default function Todolist() {
             <TableCell >Task</TableCell>
             <TableCell align="right">Date</TableCell>
             <TableCell align="right">update</TableCell>
-        <TableCell align="right">Delete</TableCell>
+       {isClick&& <TableCell align="right">Delete</TableCell>}
             <TableCell align="right">Completed</TableCell>
           </TableRow>
         </TableHead>
