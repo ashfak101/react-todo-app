@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import Checkbox from '@mui/material/Checkbox';
 import useData from './useData';
 import List from './List';
 import { Box,  } from '@mui/material';
@@ -51,13 +51,14 @@ export default function Todolist() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell> <Checkbox></Checkbox></TableCell>
             <TableCell>Number</TableCell>
             <TableCell >Task</TableCell>
             <TableCell align="right">Date</TableCell>
             <TableCell align="right">update</TableCell>
-            {isClick&& 
+           
               <TableCell align="right">Delete</TableCell>
-            }
+            
             <TableCell align="right">Status</TableCell>
             <TableCell align="right">Remaining Day</TableCell>
           </TableRow>

@@ -1,11 +1,8 @@
 import React from 'react'
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
+
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
@@ -27,26 +24,31 @@ export default function List({data,id,checkComplete,index,isClick}) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }
     }
       >
+         <TableCell> <Checkbox></Checkbox></TableCell>
         <TableCell >
+       
           <Typography>{index}</Typography>
         </TableCell>
-        <TableCell component="th" scope="row" ><Typography id={id}>{data.name}</Typography></TableCell>
+        <TableCell component="th" scope="row" ><Typography sx={{fontSize:'12px'}} id={id}>{data.name}</Typography></TableCell>
         <TableCell >
-          <Typography align="right">{data.Date}</Typography>
+          <Typography align="right" sx={{fontSize:'12px'}}>{data.Date}</Typography>
         </TableCell>
-          <TableCell align="right">{
-            data.complete===false ? <Link className='edit' to={`/update/${data.id}`}><Button  >Edit</Button></Link>:
+          <TableCell align="right" >{
+            data.complete===false ? <Link className='edit' to={`/update/${data.id}`}><Button sx={{fontSize:'12px'}} >Edit</Button></Link>:
             <Button disabled>Edit</Button>
           }</TableCell>
-            {isClick && data.complete===true  ? <TableCell  align="right"> <Button
+            {isClick && data.complete===true  ? <TableCell sx={{fontSize:'12px'}} align="right"> <Button
             sx={{color:'red'}}
-             onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell> : <TableCell><Button disabled>Delete</Button></TableCell>}
+             onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell> : <TableCell sx={{fontSize:'12px'}}><Button disabled>Delete</Button></TableCell>}
         {
-            data.complete ? <TableCell align="right" sx={{color:'green'}}>Completed</TableCell>: <TableCell align="right"><Button
+            data.complete ? <TableCell align="right" sx={{color:'green',fontSize:'12px'}}>Completed</TableCell>: <TableCell sx={{fontSize:'12px'}} align="right"><Button
             checked={data.complete}
             onClick={()=>checkComplete(id)} >Incomplete</Button></TableCell> 
 
         }
+         <TableCell align="center" sx={{fontSize:'12px'}} >
+         {data.remainingDays}
+        </TableCell>
         
        
         

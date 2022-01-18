@@ -4,12 +4,15 @@ import Button from '@mui/material/Button';
 import useData from './useData';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import moment from 'moment';
 export default function TodoForm() {
     const [text,setText] =useState('')
     const [date,setDate] =useState('')
     const [success, setSuccess] = useState(false)
     const [datas,setDatas]=useData();
-    
+    const today =new Date()
+    const validDate = today.getFullYear() + '-' + ('0' + today.getMonth() + 1).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    console.log(validDate);
     const handleChange=e=>{
         setText(e.target.value)
     }
@@ -18,17 +21,19 @@ export default function TodoForm() {
     }
     
     // Validate Date ------//
-    const today =new Date()
-    const validDate = today.getFullYear() + '-' + ('0' + today.getMonth() + 1).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    console.log(validDate);
+    
     const handleSubmit=e=>{
         e.preventDefault();
        
+        const given = moment(date, "YYYY-MM-DD");
+        let current = moment().startOf('day');
+        //Difference in number of days
+        let remainingDays = moment.duration(given.diff(current)).asDays();
         setDatas([...datas,{ 
             id: Math.random()*50,    
             name:text,
             complete:false,
-            Date:date}])
+            Date:date || validDate,remainingDays }])
             
             setSuccess(true)
             setText('')
