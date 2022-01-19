@@ -9,16 +9,17 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import useData from './useData';
 import List from './List';
-import { Box, Typography,  } from '@mui/material';
+import { Box,  } from '@mui/material';
 import Button from '@mui/material/Button';
 
 
 export default function Todolist() {
     const [isClick,setIsClick]=useState(false)
    const [datas,setDatas]= useData();
+    const [searchData,setSearchData]= useState(datas)
     const [checkAll,setCheckAll]=useState(false)
-    const [search,setSearch] =  useState('')
-   console.log(datas);
+  
+   console.log(searchData);
 
    const checkComplete=id=>{
         const newData=[...datas]
@@ -31,12 +32,12 @@ export default function Todolist() {
         setIsClick(true)
    }
    
-    const handleSearchText=e=>{
-      setSearch(e.target.value)
-    }
-    const handleSearch=()=>{
+  
+    const handleSearch=e=>{
+      const search=e.target.value
       const searchedTodo =datas.filter(data=>data.name.toLowerCase().includes(search.toLowerCase()))
-      setDatas(searchedTodo)
+      setSearchData(searchedTodo)
+      
     }
    const handleCheckBoxChange=(id)=>{
      const newData = datas.map(data=>{
@@ -67,8 +68,8 @@ export default function Todolist() {
     return (
         <Box>
           <Box>
-            <input className='search' type="text" onChange={handleSearchText}/>
-            <Button variant='contained' sx={{m:1}} onClick={handleSearch}>Search</Button>
+            <input className='search' type="text" onChange={handleSearch}/>
+            
               
            
           </Box>
@@ -89,7 +90,7 @@ export default function Todolist() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {datas.map((data,index)=>(
+          {searchData.map((data,index)=>(
               <List
               key={data.id}
               data={data}
@@ -102,9 +103,9 @@ export default function Todolist() {
         </TableBody>
       </Table>
     </TableContainer>
-            <Box>
-              <Typography>Delete All Task</Typography>
-              <Button onClick={handleOnclick}>Delete</Button>
+            <Box sx={{m:4}}>
+             
+              <Button variant='contained' onClick={handleOnclick}>Delete</Button>
             </Box>
         </Box>
     )
