@@ -19,9 +19,9 @@ export default function List({data,id,checkComplete,index,isClick,handleCheckBox
    
 
     return (
-        <TableRow
+        <TableRow 
       
-        sx={{ '&:last-child td, &:last-child th': { border: 0 } }
+        sx={{ '&:last-child td, &:last-child th': { border: 0} }
     }
       >
          <TableCell > <input type='checkbox' checked={data.complete} onChange={()=>handleCheckBoxChange(data.id)}/></TableCell>

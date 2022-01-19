@@ -40,13 +40,13 @@ export default function Todolist() {
       
     }
    const handleCheckBoxChange=(id)=>{
-     const newData = datas.map(data=>{
+     const newData = searchData.map(data=>{
         if(data.id===id){
          return {...data,complete:!data.complete}
         }
         return data;
      })
-     setDatas(newData);
+     setSearchData(newData);
    }
   const  handleAllCheck=()=>{
       const newData = [...datas]
@@ -55,7 +55,7 @@ export default function Todolist() {
             data.complete= !checkAll
           }
         )
-        setDatas(newData)
+        setSearchData(newData)
         setCheckAll(!checkAll)
   }
       const handleOnclick= ()=>{
@@ -105,7 +105,8 @@ export default function Todolist() {
     </TableContainer>
             <Box sx={{m:4}}>
              
-              <Button variant='contained' onClick={handleOnclick}>Delete</Button>
+              
+               <Button variant='contained' onClick={handleOnclick}>Delete</Button>
             </Box>
         </Box>
     )
