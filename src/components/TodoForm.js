@@ -5,6 +5,7 @@ import useData from './useData';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import moment from 'moment';
+import Form from './Form';
 export default function TodoForm() {
     const [text,setText] =useState('')
     const [date,setDate] =useState('')
@@ -43,9 +44,10 @@ export default function TodoForm() {
     }
     setTimeout(() => {
         setSuccess(false)
-      }, 1000);
+      }, 2000);
     return (
-        <Box  sx={{m:4}}>
+        <>
+        {/* <Box  sx={{m:4}}>
             <form onSubmit={handleSubmit}>
                 <TextField type="text" name='tasks'  id='tasks' placeholder='Add your task'
                 onChange={handleChange}
@@ -63,6 +65,15 @@ export default function TodoForm() {
            {success && <Alert severity="success">
                  <AlertTitle>Task Added successfully</AlertTitle>    
              </Alert>}
-        </Box>
+        </Box> */}
+                <Form
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                handleDateChange={handleDateChange}
+                success={success}
+                validDate={validDate}
+                text={text}
+                ></Form>
+        </>
     )
 }

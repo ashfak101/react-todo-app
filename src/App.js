@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import Header from './components/Header';
 import Todolist from './components/Todolist';
@@ -7,6 +7,7 @@ import ContextProvider from './context/ContextProvider';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Update from './components/Update';
+
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path=':id' element={<Update/>}></Route>
         </Route>
         <Route path='todoform' element={<TodoForm></TodoForm>}></Route>
+        
       </Routes>
     </BrowserRouter>
     

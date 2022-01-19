@@ -16,10 +16,9 @@ import Button from '@mui/material/Button';
 export default function Todolist() {
     const [isClick,setIsClick]=useState(false)
    const [datas,setDatas]= useData();
-    const [searchData,setSearchData]= useState(datas)
+  
     const [checkAll,setCheckAll]=useState(false)
   
-   console.log(searchData);
 
    const checkComplete=id=>{
         const newData=[...datas]
@@ -36,17 +35,17 @@ export default function Todolist() {
     const handleSearch=e=>{
       const search=e.target.value
       const searchedTodo =datas.filter(data=>data.name.toLowerCase().includes(search.toLowerCase()))
-      setSearchData(searchedTodo)
+      setDatas(searchedTodo)
       
     }
    const handleCheckBoxChange=(id)=>{
-     const newData = searchData.map(data=>{
+     const newData = datas.map(data=>{
         if(data.id===id){
          return {...data,complete:!data.complete}
         }
         return data;
      })
-     setSearchData(newData);
+     setDatas(newData);
    }
   const  handleAllCheck=()=>{
       const newData = [...datas]
@@ -55,7 +54,7 @@ export default function Todolist() {
             data.complete= !checkAll
           }
         )
-        setSearchData(newData)
+        setDatas(newData)
         setCheckAll(!checkAll)
   }
       const handleOnclick= ()=>{
@@ -90,7 +89,7 @@ export default function Todolist() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {searchData.map((data,index)=>(
+          {datas.map((data,index)=>(
               <List
               key={data.id}
               data={data}
