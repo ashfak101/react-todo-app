@@ -9,13 +9,14 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import useData from './useData';
 import List from './List';
-import { Box,  } from '@mui/material';
+import { Box, Typography,  } from '@mui/material';
 import Button from '@mui/material/Button';
 
 
 export default function Todolist() {
     const [isClick,setIsClick]=useState(false)
    const [datas,setDatas]= useData();
+    const [checkAll,setCheckAll]=useState(false)
     const [search,setSearch] =  useState('')
    console.log(datas);
 
@@ -37,8 +38,32 @@ export default function Todolist() {
       const searchedTodo =datas.filter(data=>data.name.toLowerCase().includes(search.toLowerCase()))
       setDatas(searchedTodo)
     }
-
-      
+   const handleCheckBoxChange=(id)=>{
+     const newData = datas.map(data=>{
+        if(data.id===id){
+         return {...data,complete:!data.complete}
+        }
+        return data;
+     })
+     setDatas(newData);
+   }
+  const  handleAllCheck=()=>{
+      const newData = [...datas]
+        newData.forEach(data=> 
+          {
+            data.complete= !checkAll
+          }
+        )
+        setDatas(newData)
+        setCheckAll(!checkAll)
+  }
+      const handleOnclick= ()=>{
+        const newData= datas.filter(data=>{
+            return data.complete === false 
+        })
+        setDatas(newData)
+        setCheckAll(false)
+      }
     return (
         <Box>
           <Box>
@@ -51,7 +76,7 @@ export default function Todolist() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell> <Checkbox></Checkbox></TableCell>
+            <TableCell> <Checkbox onClick={handleAllCheck}></Checkbox></TableCell>
             <TableCell>Number</TableCell>
             <TableCell >Task</TableCell>
             <TableCell align="right">Date</TableCell>
@@ -71,12 +96,16 @@ export default function Todolist() {
               index={index+1}
               id={index}
               checkComplete={checkComplete}
-              
+              handleCheckBoxChange={handleCheckBoxChange}
               isClick={isClick}></List>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+            <Box>
+              <Typography>Delete All Task</Typography>
+              <Button onClick={handleOnclick}>Delete</Button>
+            </Box>
         </Box>
     )
 }

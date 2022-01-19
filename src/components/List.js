@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import useData from './useData';
 import { Link } from 'react-router-dom';
-export default function List({data,id,checkComplete,index,isClick}) {
+export default function List({data,id,checkComplete,index,isClick,handleCheckBoxChange}) {
     const [datas,setDatas]=useData()
 
 
@@ -16,9 +16,7 @@ export default function List({data,id,checkComplete,index,isClick}) {
       const newdata= datas.filter(data=> data.id!==id)
       setDatas(newdata)
     }
-    const checkBox=id=>{
-      alert(id)
-    }
+   
 
     return (
         <TableRow
@@ -26,7 +24,7 @@ export default function List({data,id,checkComplete,index,isClick}) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }
     }
       >
-         <TableCell onClick={()=>checkBox(data.id)}> <Checkbox ></Checkbox></TableCell>
+         <TableCell > <input type='checkbox' checked={data.complete} onChange={()=>handleCheckBoxChange(data.id)}/></TableCell>
         <TableCell >
        
           <Typography>{index}</Typography>
