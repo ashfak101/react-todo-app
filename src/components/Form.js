@@ -11,7 +11,7 @@ export default function Form({handleSubmit,handleChange,handleDateChange,success
           {id ? <h1>Update Your task</h1> : <h1>Add Your task</h1>} 
             <form onSubmit={id ? handleOnSubmit : handleSubmit}>
       
-            <input className='text' type="text" defaultValue={id ? updateData.name : text} onChange={id ? handleOnChangeText : handleChange} required  placeholder={id ? 'Update Task':'Add Task'}/>
+            <input className='text' type="text" defaultValue={id ? updateData?.name : text} onChange={id ? handleOnChangeText : handleChange} required  placeholder={id ? 'Update Task':'Add Task'}/>
             <input className='date' type="Date"min={validDate} defaultValue={id ? updateData?.Date : validDate}
                 onChange={id ? handleOnChangeDate:handleDateChange} required/>
                 

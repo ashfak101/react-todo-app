@@ -74,12 +74,12 @@ export default function Todolist() {
         const datas = snapshot.val();
         const todoDatas=[]
           for( let data in datas){
-            todoDatas.push(datas[data])
+            todoDatas.push({data,...datas[data]})
           }
           setTodolist(todoDatas)
         });
         
-      },[])
+      },[db])
     return (
         <Box>
           <Box>
