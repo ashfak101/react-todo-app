@@ -1,9 +1,12 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import useAuth from './Hooks/useAuth'
 
 
 export default function Header() {
+
+    const {user,logOut} =useAuth()
     return (
         <Box>
             <Typography variant='h4'
@@ -14,6 +17,10 @@ export default function Header() {
             }}>
                 <Link className='link' to={`/home`}>Task List</Link>
                 <Link className='link' to={`/todoform`}>Add task</Link>
+                <Link className='link' to={`/login`}>Login</Link>
+            {   user.email &&
+                <Button onClick={()=>logOut()}> log out</Button>}
+                
             </Box>
         </Box>
     )

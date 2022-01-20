@@ -21,8 +21,6 @@ export default function Update() {
     const handleOnChangeDate=e=>{
         setDate(e.target.value);
     }
-
-   
      useEffect(() => {    
     const newData = datas.find((data)=> data.id==id)
         setUpdate(newData)

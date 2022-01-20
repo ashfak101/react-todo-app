@@ -1,16 +1,19 @@
-import { TextField,Box } from '@mui/material'
+
 import React, { useState } from 'react'
-import Button from '@mui/material/Button';
 import useData from './useData';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import moment from 'moment';
 import Form from './Form';
+import initializeAuthentication from './Firebase/firebase.init';
+import { getDatabase, push, ref, set } from "firebase/database";
+import useAuth from './Hooks/useAuth';
+initializeAuthentication()
 export default function TodoForm() {
+    const database=getDatabase();
     const [text,setText] =useState('')
     const [date,setDate] =useState('')
     const [success, setSuccess] = useState(false)
     const [datas,setDatas]=useData();
+    const {user}=useAuth()
     const today =new Date()
     const validDate = today.getFullYear() + '-' + ('0' + today.getMonth() + 1).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     console.log(validDate);
@@ -20,13 +23,14 @@ export default function TodoForm() {
     const handleDateChange=e=>{
         setDate(e.target.value)
     }
+
     
     // Validate Date ------//
-    
+    console.log(date);
     const handleSubmit=e=>{
         e.preventDefault();
-       
-        const given = moment(date, "YYYY-MM-DD");
+        
+        let given = moment(date, "YYYY-MM-DD");
         let current = moment().startOf('day');
         //Difference in number of days
         let remainingDays = moment.duration(given.diff(current)).asDays();
@@ -34,38 +38,26 @@ export default function TodoForm() {
             id: Math.random()*50,    
             name:text,
             complete:false,
-            Date:date || validDate,remainingDays }])
+            Date:date || validDate,
+            remainingDays: remainingDays || 0 }])
             
             setSuccess(true)
             setText('')
-            setDate('')
-            
-           
+            push(ref(database, 'todos/'), {
+                id: Math.random()*50,    
+                name:text,
+                complete:false,
+                email:user.email,
+                Date:date || validDate,
+                remainingDays: remainingDays || 0 
+              });
     }
+    // for add Task successfully
     setTimeout(() => {
         setSuccess(false)
       }, 2000);
     return (
         <>
-        {/* <Box  sx={{m:4}}>
-            <form onSubmit={handleSubmit}>
-                <TextField type="text" name='tasks'  id='tasks' placeholder='Add your task'
-                onChange={handleChange}
-                value={text}
-                required
-                />
-                <input className='date' type="Date" min={validDate} defaultValue={validDate} onChange={handleDateChange}  required/>
-                
-                <Button
-                 type='sumbit'
-                  variant="contained"
-                  sx={{p:1.5,ml:4}}
-                  >ADD+</Button>
-            </form>
-           {success && <Alert severity="success">
-                 <AlertTitle>Task Added successfully</AlertTitle>    
-             </Alert>}
-        </Box> */}
                 <Form
                 handleSubmit={handleSubmit}
                 handleChange={handleChange}

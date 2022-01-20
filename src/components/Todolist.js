@@ -1,4 +1,4 @@
-import React, {useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,15 +11,18 @@ import useData from './useData';
 import List from './List';
 import { Box,  } from '@mui/material';
 import Button from '@mui/material/Button';
+import initializeAuthentication from './Firebase/firebase.init';
+import { getDatabase, onValue, ref } from 'firebase/database';
 
-
+initializeAuthentication()
 export default function Todolist() {
+  const db = getDatabase();
     const [isClick,setIsClick]=useState(false)
    const [datas,setDatas]= useData();
   
     const [checkAll,setCheckAll]=useState(false)
-  
-
+    const [todoList,setTodolist]=useState()
+    console.log(todoList);
    const checkComplete=id=>{
         const newData=[...datas]
         newData.forEach((data,index)=>{
@@ -64,6 +67,19 @@ export default function Todolist() {
         setDatas(newData)
         setCheckAll(false)
       }
+
+      useEffect(()=>{
+        const starCountRef = ref(db, 'todos/');
+        onValue(starCountRef, (snapshot) => {
+        const datas = snapshot.val();
+        const todoDatas=[]
+          for( let data in datas){
+            todoDatas.push(datas[data])
+          }
+          setTodolist(todoDatas)
+        });
+        
+      },[])
     return (
         <Box>
           <Box>
@@ -89,7 +105,7 @@ export default function Todolist() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {datas.map((data,index)=>(
+          {todoList?.map((data,index)=>(
               <List
               key={data.id}
               data={data}
