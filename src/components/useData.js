@@ -4,8 +4,8 @@ import { DataContext } from "../context/ContextProvider"
 
 
 const useData=()=>{
-    const [datas,setDatas]=useContext(DataContext);
-    return [datas,setDatas];
+    const [todoList,setTodolist]=useContext(DataContext);
+    return [todoList,setTodolist];
 } 
 
 export default useData;

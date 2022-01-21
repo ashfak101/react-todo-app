@@ -12,7 +12,6 @@ export default function TodoForm() {
     const [text,setText] =useState('')
     const [date,setDate] =useState('')
     const [success, setSuccess] = useState(false)
-    const [datas,setDatas]=useData();
     const {user}=useAuth()
     const today =new Date()
     const validDate = today.getFullYear() + '-' + ('0' + today.getMonth() + 1).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
@@ -33,24 +32,17 @@ export default function TodoForm() {
         let given = moment(date, "YYYY-MM-DD");
         let current = moment().startOf('day');
         //Difference in number of days
-        let remainingDays = moment.duration(given.diff(current)).asDays();
-        setDatas([...datas,{ 
-            id: Math.random()*50,    
-            name:text,
-            complete:false,
-            Date:date || validDate,
-            remainingDays: remainingDays || 0 }])
-            
-            setSuccess(true)
-            setText('')
-            push(ref(database, 'todos/'), {
-                id: Math.random()*50,    
+        let remainingDays = moment.duration(given.diff(current)).asDays(); 
+            push(ref(database, 'todos/'+user.uid), {
+                uid:user.uid,    
                 name:text,
                 complete:false,
                 email:user.email,
                 Date:date || validDate,
                 remainingDays: remainingDays || 0 
               });
+              setSuccess(true)
+              setText('')
     }
     // for add Task successfully
     setTimeout(() => {

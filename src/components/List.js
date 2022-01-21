@@ -6,16 +6,13 @@ import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
-import useData from './useData';
+
 import { Link } from 'react-router-dom';
-export default function List({data,id,checkComplete,index,isClick,handleCheckBoxChange}) {
-    const [datas,setDatas]=useData()
+export default function List({data,id,checkComplete,index,isClick,handleCheckBoxChange,deleteToDo}) {
+  
 
 
-    const deleteToDo =id=>{
-      const newdata= datas.filter(data=> data.id!==id)
-      setDatas(newdata)
-    }
+    
    
 
     return (
@@ -24,7 +21,7 @@ export default function List({data,id,checkComplete,index,isClick,handleCheckBox
         sx={{ '&:last-child td, &:last-child th': { border: 0} }
     }
       >
-         <TableCell > <input type='checkbox' checked={data.complete} onChange={()=>handleCheckBoxChange(data.id)}/></TableCell>
+         <TableCell > <input type='checkbox'  value={data.id || ''} onChange={handleCheckBoxChange}/></TableCell>
         <TableCell >
        
           <Typography>{index}</Typography>
@@ -37,15 +34,20 @@ export default function List({data,id,checkComplete,index,isClick,handleCheckBox
             data.complete===false ? <Link className='edit' to={`/update/${data.id}`}><Button sx={{fontSize:'12px'}} >Edit</Button></Link>:
             <Button disabled>Edit</Button>
           }</TableCell>
-            {isClick && data.complete===true  ? <TableCell sx={{fontSize:'12px'}} align="right"> <Button
+            {data.complete===true  ? <TableCell sx={{fontSize:'12px'}} align="right"> <Button
             sx={{color:'red'}}
              onClick={()=>deleteToDo(data.id)} >Delete</Button></TableCell> : <TableCell sx={{fontSize:'12px'}}><Button disabled>Delete</Button></TableCell>}
-        {
-            data.complete ? <TableCell align="right" sx={{color:'green',fontSize:'12px'}}>Completed</TableCell>: <TableCell sx={{fontSize:'12px'}} align="right"><Button
-            checked={data.complete}
-            onClick={()=>checkComplete(id)} >Incomplete</Button></TableCell> 
+       
+           { data?.complete ?  <TableCell sx={{fontSize:'12px'}} align="right"><Button
+            
+            onClick={()=>checkComplete(data.id)} >complete</Button></TableCell> :
+            <TableCell sx={{fontSize:'12px'}} align="right"><Button
+            
+            onClick={()=>checkComplete(data.id)} >Incomplete</Button></TableCell>
+            }
 
-        }
+
+     
          <TableCell align="center" sx={{fontSize:'12px'}} >
          {data.remainingDays}
         </TableCell>

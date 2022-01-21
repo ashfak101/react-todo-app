@@ -12,87 +12,109 @@ import List from './List';
 import { Box,  } from '@mui/material';
 import Button from '@mui/material/Button';
 import initializeAuthentication from './Firebase/firebase.init';
-import { getDatabase, onValue, ref } from 'firebase/database';
+import { getDatabase, ref,child,get, update } from 'firebase/database';
+import useAuth from './Hooks/useAuth';
 
 initializeAuthentication()
 export default function Todolist() {
-  const db = getDatabase();
-    const [isClick,setIsClick]=useState(false)
-   const [datas,setDatas]= useData();
-  
-    const [checkAll,setCheckAll]=useState(false)
-    const [todoList,setTodolist]=useState()
-    console.log(todoList);
-   const checkComplete=id=>{
-        const newData=[...datas]
-        newData.forEach((data,index)=>{
-            if(index===id){
-                data.complete = !data.complete
-            } 
-        })
-        setDatas(newData);
-        setIsClick(true)
-   }
-   
-  
-    const handleSearch=e=>{
-      const search=e.target.value
-      const searchedTodo =datas.filter(data=>data.name.toLowerCase().includes(search.toLowerCase()))
-      setDatas(searchedTodo)
-      
-    }
-   const handleCheckBoxChange=(id)=>{
-     const newData = datas.map(data=>{
-        if(data.id===id){
-         return {...data,complete:!data.complete}
-        }
-        return data;
-     })
-     setDatas(newData);
-   }
-  const  handleAllCheck=()=>{
-      const newData = [...datas]
-        newData.forEach(data=> 
-          {
-            data.complete= !checkAll
-          }
-        )
-        setDatas(newData)
-        setCheckAll(!checkAll)
-  }
-      const handleOnclick= ()=>{
-        const newData= datas.filter(data=>{
-            return data.complete === false 
-        })
-        setDatas(newData)
-        setCheckAll(false)
-      }
+    const db = getDatabase();
+    const voidArr =[]
+    const [isComplete,setIsComplete]=useState(false)
+    const [todoList,setTodolist]=useData();
+    const {user}=useAuth();
 
+    console.log(todoList);
+  
+   
+   const handleCheckBoxChange=e=>{
+       
+     if(e.target.checked){
+       const checkedItem= todoList.find(todo=> todo.id=== e.target.value)
+       voidArr.push(checkedItem)
+     }
+     if (!e.target.checked) {
+      const unChecked = voidArr.find(a => a.id === e.target.value)
+      voidArr.splice(voidArr.indexOf(unChecked), 1)
+  }
+  console.log(voidArr);
+   }
+      const handleOnclick= ()=>{
+        const dbRef = ref(db);
+        voidArr.forEach(element => {
+          get(child(dbRef, `/todos/${user.uid}/`)).then((snapshot) => {
+              setIsComplete(false);
+              if (snapshot.exists()) {
+                  // const task = snapshot.val();
+                  console.log(snapshot.val());
+                  const deletes = {};
+                  deletes[`/todos/${user.uid}/${element.id}/`] = null;
+                  setIsComplete(true);
+                  return update(ref(db), deletes);
+              } 
+          }).catch((error) => {
+              console.error(error);
+          });
+      });
+      }
+// Firebase data load for specific user
       useEffect(()=>{
-        const starCountRef = ref(db, 'todos/');
-        onValue(starCountRef, (snapshot) => {
-        const datas = snapshot.val();
-        const todoDatas=[]
-          for( let data in datas){
-            todoDatas.push({data,...datas[data]})
-          }
-          setTodolist(todoDatas)
-        });
+        const dbRef = ref(db);
+        if(user){
+            get(child(dbRef,`todos/${user.uid}`)).then((snapshot)=>{
+              if(snapshot.exists()){
+                const todos=snapshot.val();
+                const Datas=[];
+                for(let id in todos){
+                  Datas.push({id,...todos[id]})
+                }
+                setTodolist(Datas)
+              }
+            })
+        }
+      },[db,user.email, isComplete,user,setTodolist,])
+
+
+  // for complete and Incomplete
+  const checkComplete=id=>{
+    if(isComplete){
+      setIsComplete(false)
+    }
+    console.log(id)
+    const dbRef = ref(db);
+    get(child(dbRef, `/todos/${user.uid}/${id}/complete`)).then((snapshot)=>{
+      if(snapshot.exists){
+            const complete = snapshot.val();
+            const updates={};
+            updates[`/todos/${user.uid}/${id}/complete`]=!complete;
+            setIsComplete(true)
+            return update(ref(db),updates)
+          }})
+ }
+ const deleteToDo =id=>{
+  if(isComplete){
+    setIsComplete(false)
+  }
+  const dbRef = ref(db);
+    get(child(dbRef,`todos/${user.uid}/`)).then((snapshot)=>{
+      if(snapshot.exists()){
         
-      },[db])
+        const deletes={};
+        deletes[`/todos/${user.uid}/${id}`]=null;
+        setIsComplete(true)
+        return update(ref(db), deletes);
+      }
+    })
+}
     return (
         <Box>
-          <Box>
+          {/* <Box>
             <input className='search' type="text" onChange={handleSearch}/>
-            
-              
-           
-          </Box>
+          </Box> */}
           <TableContainer component={Paper} >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell> <Checkbox onClick={handleAllCheck}></Checkbox></TableCell>
+            <TableCell> </TableCell>
             <TableCell>Number</TableCell>
             <TableCell >Task</TableCell>
             <TableCell align="right">Date</TableCell>
@@ -113,7 +135,8 @@ export default function Todolist() {
               id={index}
               checkComplete={checkComplete}
               handleCheckBoxChange={handleCheckBoxChange}
-              isClick={isClick}></List>
+              deleteToDo={deleteToDo}
+              ></List>
           ))}
         </TableBody>
       </Table>

@@ -1,74 +1,63 @@
 
-import React, { useState,useEffect } from 'react'
-import Button from '@mui/material/Button';
+import React, { useState } from 'react'
+
 import { useParams,useNavigate } from 'react-router-dom';
 import useData from './useData';
 import moment from 'moment';
 import Form from './Form';
 import initializeAuthentication from './Firebase/firebase.init';
-import { child, getDatabase, onValue, push, ref, update } from 'firebase/database';
+import {  getDatabase,   ref, update } from 'firebase/database';
+import useAuth from './Hooks/useAuth';
 initializeAuthentication()
 
 export default function Update() {
-    const [todoList,setTodolist]=useState()
+  const{user}=useAuth()
+    const [todoList]=useData();
     const db = getDatabase();
     const today =new Date()
     const validDate = today.getFullYear() + '-' + ('0' + today.getMonth() + 1).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    //  let navigate = useNavigate();
+     let navigate = useNavigate();
     let {id}=useParams()
-    // const [datas,setDatas]=useData({});
-    const [updateData,setUpdate]= useState({})
+    console.log(id);
+  
+    
     const [text,setText]=useState('');
     const [date,setDate]=useState('');
-    console.log(updateData);
+  
     // console.log(datas);
     const handleOnChangeText=e=>{
         setText(e.target.value);
     }
     const handleOnChangeDate=e=>{
         setDate(e.target.value);
-    }
-     useEffect(() => {    
-    const newData = todoList?.find((data)=> data.id==id)
-        setUpdate(newData)
-        
-  }, [todoList,id])
+    }   
+    const updateData = todoList?.find((data)=> data.id===id)
+       
+  
+
+
     const handleOnSubmit= e =>{
         e.preventDefault();
         const given = moment(date, "YYYY-MM-DD");
         let current = moment().startOf('day');
         //Difference in number of days
         let updateDays = moment.duration(given.diff(current)).asDays();
-        const singleTodo=[{
+        const singleTodo={
            ...updateData,
             name:text || updateData.name,
             Date: date || validDate|| updateData.Date,
             remainingDays:updateDays || updateData.remainingDays
-        }]    
-        const latestUpdate=todoList?.map(data=>singleTodo.find(todo=>todo.id===data.id)|| data)
-        const newPostKey = push(child(ref(db), '/todos')).data;
+        }  
+        console.log(singleTodo);
+        console.log(`/todos/${user.uid}/${id}/name`);
         const updates={};
-        updates['/todos'+newPostKey]=latestUpdate;
-        updates['/update/'+id+'/'+ newPostKey]=latestUpdate;
-        return update(ref(db), updates);
-      
-    //    setDatas(latestUpdate)
-    //    navigate('/')
+        updates[`/todos/${user.uid}/${id}/name`] = singleTodo.name;
+        updates[`/todos/${user.uid}/${id}/Date`] = singleTodo.Date;
+        updates[`/todos/${user.uid}/${id}/remainingDays`] = singleTodo.remainingDays;
+        navigate('/')
+        return update(ref(db),updates)
+       
     }
-
-
-    useEffect(()=>{
-        const starCountRef = ref(db, 'todos/');
-        onValue(starCountRef, (snapshot) => {
-        const datas = snapshot.val();
-        const todoDatas=[]
-          for( let data in datas){
-            todoDatas.push(datas[data])
-          }
-          setTodolist(todoDatas)
-        });
-    },[db])
-   console.log(todoList);
     return (
        <>
         {/* <h1>{id}</h1>
