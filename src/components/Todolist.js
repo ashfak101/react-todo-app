@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import useData from './useData';
 import List from './List';
-import { Box,  } from '@mui/material';
+import { Box, Typography,  } from '@mui/material';
 import Button from '@mui/material/Button';
 import initializeAuthentication from './Firebase/firebase.init';
 import { getDatabase, ref,child,get, update } from 'firebase/database';
@@ -159,10 +159,11 @@ export default function Todolist() {
       </Table>
     </TableContainer>
             <Box sx={{m:4}}>
-             
-              
                <Button variant='contained' onClick={handleOnclick}>Delete</Button>
             </Box>
+            {/* {
+              user.emailVerified == false && <Typography>Please Check Your Email and Verified</Typography>
+            } */}
         </Box>
     )
 }

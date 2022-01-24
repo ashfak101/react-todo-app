@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../components/Hooks/useAuth'
@@ -27,9 +27,9 @@ export default function Login() {
 
             }
             else{
-                registerWithEmailPass(loginUser.email,loginUser.password,loginUser.name)
+                registerWithEmailPass(loginUser.email,loginUser.password,loginUser.name,navigate)
                
-                navigate(`/`)
+               
                 // window.location.reload()
             }
         }
@@ -48,6 +48,14 @@ export default function Login() {
   return <>
   
     <Box>
+        {toggle ?
+            <Typography sx={{
+                fontSize:'16px',color:'blue',m:2
+            }}>Please Register</Typography>:<Typography sx={{
+                fontSize:'16px',color:'blue',m:2
+            }}>Please Login</Typography>
+        }
+
             <form onSubmit={handleSubmit}>
             {
                 toggle && <TextField

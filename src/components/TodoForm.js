@@ -5,6 +5,7 @@ import Form from './Form';
 import initializeAuthentication from './Firebase/firebase.init';
 import { getDatabase, push, ref } from "firebase/database";
 import useAuth from './Hooks/useAuth';
+import { Typography } from '@mui/material';
 initializeAuthentication()
 export default function TodoForm() {
     const database=getDatabase();
@@ -51,10 +52,15 @@ export default function TodoForm() {
     setTimeout(() => {
         setSuccess(false)
       }, 2000);
-      console.log(user);
-
+      
     return (
-        <>
+        <>      
+
+            {/* {
+                user.emailVerified === false && <Typography sx={{
+                    color:'red'
+                }}>Please Verifiy Your Email</Typography>
+            } */}
               { user.email && <Form
                 handleSubmit={handleSubmit}
                 handleChange={handleChange}
