@@ -29,8 +29,8 @@ export default function Login() {
             else{
                 registerWithEmailPass(loginUser.email,loginUser.password,loginUser.name)
                
-                navigate(`/login`)
-                window.location.reload()
+                navigate(`/`)
+                // window.location.reload()
             }
         }
         const handleGoogleLogin=()=>{
@@ -44,7 +44,7 @@ export default function Login() {
             .catch(err=>console.log(err))
             navigate(`/`)
         }
-
+        
   return <>
   
     <Box>

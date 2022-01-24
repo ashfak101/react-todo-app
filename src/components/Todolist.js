@@ -131,7 +131,7 @@ export default function Todolist() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell> </TableCell>
+            <TableCell></TableCell>
             <TableCell>Number</TableCell>
             <TableCell >Task</TableCell>
             <TableCell align="right">Date</TableCell>

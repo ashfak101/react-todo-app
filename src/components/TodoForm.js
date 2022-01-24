@@ -34,13 +34,16 @@ export default function TodoForm() {
         //Difference in number of days
         let remainingDays = moment.duration(given.diff(current)).asDays(); 
             push(ref(database, 'todos/'+user.uid), {
-                uid:user.uid,    
+                  
                 name:text,
                 complete:false,
                 email:user.email,
                 Date:date || validDate,
-                remainingDays: remainingDays || 0 
+                remainingDays: remainingDays || 0 ,
+                uid:user.uid, 
+                
               });
+              console.log(user.uid);
               setSuccess(true)
               setText('')
     }
@@ -48,6 +51,8 @@ export default function TodoForm() {
     setTimeout(() => {
         setSuccess(false)
       }, 2000);
+      console.log(user);
+
     return (
         <>
               { user.email && <Form

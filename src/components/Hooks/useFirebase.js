@@ -25,19 +25,21 @@ const useFirebase=()=>{
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                  // Signed in 
-                const newUser = {email,displayName:name}
+                const newUser = {...userCredential.user,displayName:name}
                 setUser(newUser) 
                 // ...
                 updateProfile(auth.currentUser, {
                     displayName: name
                   }).then(() => {
-                    // Profile updated!
+                  
                     // ...
                   }).catch((error) => {
                     // An error occurred
                     // ...
                   });
+                 
             })
+            
              .catch((error) => {
                 // const errorCode = error.code;
                 // const errorMessage = error.message;
