@@ -6,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import useData from './useData';
 import List from './List';
 import { Box,  } from '@mui/material';
@@ -22,7 +21,7 @@ export default function Todolist() {
     const [isComplete,setIsComplete]=useState(false)
     const [todoList,setTodolist]=useData();
     const {user}=useAuth();
-
+    const [display, setDisplay]=useState()
     console.log(todoList);
   
    
@@ -48,6 +47,8 @@ export default function Todolist() {
                   console.log(snapshot.val());
                   const deletes = {};
                   deletes[`/todos/${user.uid}/${element.id}/`] = null;
+                 
+                
                   setIsComplete(true);
                   return update(ref(db), deletes);
               } 
@@ -59,8 +60,9 @@ export default function Todolist() {
 // Firebase data load for specific user
       useEffect(()=>{
         const dbRef = ref(db);
-        if(user){
+        if(user.uid){
             get(child(dbRef,`todos/${user.uid}`)).then((snapshot)=>{
+              // console.log(snapshot);
               if(snapshot.exists()){
                 const todos=snapshot.val();
                 const Datas=[];
@@ -68,9 +70,15 @@ export default function Todolist() {
                   Datas.push({id,...todos[id]})
                 }
                 setTodolist(Datas)
+                setDisplay(Datas)
+              }
+              else{
+               
+                setDisplay([])
               }
             })
         }
+        
       },[db,user.email, isComplete,user,setTodolist,])
 
 
@@ -99,17 +107,26 @@ export default function Todolist() {
       if(snapshot.exists()){
         
         const deletes={};
-        deletes[`/todos/${user.uid}/${id}`]=null;
+        deletes[`/todos/${user.uid}/${id}`]=null; 
+
         setIsComplete(true)
         return update(ref(db), deletes);
       }
+      
     })
+  
 }
+    const handleSearch=e=>{
+      const searchText=e.target.value
+      const searchTodos = todoList.filter(todo=>todo.name.toLowerCase().includes(searchText.toLowerCase()))
+      setDisplay(searchTodos)
+     
+    }
     return (
         <Box>
-          {/* <Box>
-            <input className='search' type="text" onChange={handleSearch}/>
-          </Box> */}
+          <Box>
+            <input className='search' type="text" onChange={handleSearch} placeholder='Search Your Task'/>
+          </Box>
           <TableContainer component={Paper} >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -127,7 +144,7 @@ export default function Todolist() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {todoList?.map((data,index)=>(
+          {display?.map((data,index)=>(
               <List
               key={data.id}
               data={data}

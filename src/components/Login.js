@@ -5,7 +5,7 @@ import useAuth from '../components/Hooks/useAuth'
 export default function Login() {
         const [loginUser,setLoginUser]=useState()
         const  [toggle,setToggle]=useState(false)
-        const { user,registerWithEmailPass,loginWithEmail,handleGoogle} = useAuth()
+        const {registerWithEmailPass,loginWithEmail,signInWithGoolge} = useAuth()
         const navigate=useNavigate()
         const toggleUser=e=>{
             setToggle(e.target.checked)
@@ -28,8 +28,21 @@ export default function Login() {
             }
             else{
                 registerWithEmailPass(loginUser.email,loginUser.password,loginUser.name)
-                navigate(`/`)
+               
+                navigate(`/login`)
+                window.location.reload()
             }
+        }
+        const handleGoogleLogin=()=>{
+          
+            signInWithGoolge()
+            .then(res=>{
+                // console.log(res.user)
+                // setUser(res.user)
+               
+            })
+            .catch(err=>console.log(err))
+            navigate(`/`)
         }
 
   return <>
@@ -65,7 +78,7 @@ export default function Login() {
             <Box sx={{m:4}}>
                 <input onChange={toggleUser} type='checkbox'/>
                 <label >New User ?</label>
-                <Button variant='outlined' sx={{ml:2}} onClick={handleGoogle}>Google Login</Button>
+                <Button variant='outlined' sx={{ml:2}} onClick={handleGoogleLogin}>Google Login</Button>
             </Box>
     </Box>
   

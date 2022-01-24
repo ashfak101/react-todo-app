@@ -1,10 +1,9 @@
 
 import React, { useState } from 'react'
-import useData from './useData';
 import moment from 'moment';
 import Form from './Form';
 import initializeAuthentication from './Firebase/firebase.init';
-import { getDatabase, push, ref, set } from "firebase/database";
+import { getDatabase, push, ref } from "firebase/database";
 import useAuth from './Hooks/useAuth';
 initializeAuthentication()
 export default function TodoForm() {
@@ -26,6 +25,7 @@ export default function TodoForm() {
     
     // Validate Date ------//
     console.log(date);
+    //  Add data to firebase Realtime Database
     const handleSubmit=e=>{
         e.preventDefault();
         
@@ -50,14 +50,14 @@ export default function TodoForm() {
       }, 2000);
     return (
         <>
-                <Form
+              { user.email && <Form
                 handleSubmit={handleSubmit}
                 handleChange={handleChange}
                 handleDateChange={handleDateChange}
                 success={success}
                 validDate={validDate}
                 text={text}
-                ></Form>
+                ></Form>}
         </>
     )
 }

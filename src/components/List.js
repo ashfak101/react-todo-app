@@ -1,21 +1,21 @@
 import React from 'react'
 import TableCell from '@mui/material/TableCell';
-
 import TableRow from '@mui/material/TableRow';
-
-import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
-
 import { Link } from 'react-router-dom';
+import useAuth from './Hooks/useAuth';
 export default function List({data,id,checkComplete,index,isClick,handleCheckBoxChange,deleteToDo}) {
   
 
 
-    
+    const {user}=useAuth()
    
 
     return (
+
+
+      <> { user.email &&
         <TableRow 
       
         sx={{ '&:last-child td, &:last-child th': { border: 0} }
@@ -54,6 +54,8 @@ export default function List({data,id,checkComplete,index,isClick,handleCheckBox
         
        
         
-      </TableRow>
+      </TableRow> 
+}
+      </>
     )
 }
